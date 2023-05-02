@@ -1,0 +1,16 @@
+[localhost]
+127.0.0.1 ansible_connection=local ansible_become_password=tpass
+
+[file_server]
+10.1.9.166 ansible_user=ftpuser ansible_become_password=ftppassword
+
+[kvm_host]
+idaaocp1.zpirate.pok.stglabs.ibm.com ansible_host=10.1.8.143 ansible_user=kvm ansible_become_password=kvmpass
+
+
+
+[bastion]
+ocpz-bastion ansible_host=192.168.10.3 ansible_user=admin ansible_become_password=linux390
+
+[jumphost]
+kvm-host-01 ansible_host=192.168.10.1 ansible_user=admin ansible_become_password=linux390

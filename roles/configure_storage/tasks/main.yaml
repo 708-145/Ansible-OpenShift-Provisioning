@@ -66,7 +66,7 @@
   loop_control:
     extended: yes
     index_var: i
-    extended_allitems: false
+    #    extended_allitems: false
     label: "{{ storage.pool_path.split('/')[:i] | join('/') }}"
   when: "storage.pool_path.split('/')[:i] | join('/') != ''"
 

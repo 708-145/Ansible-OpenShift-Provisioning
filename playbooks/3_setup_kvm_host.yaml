@@ -166,5 +166,6 @@
   tags: setup, section_3
   become: true
   roles:
-    - configure_storage
+#    - configure_storage
     - { role: macvtap, when: env.network_mode | upper != 'NAT' }
+

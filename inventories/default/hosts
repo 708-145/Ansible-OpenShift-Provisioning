@@ -10,7 +10,5 @@ idaaocp1.zpirate.pok.stglabs.ibm.com ansible_host=10.1.8.143 ansible_user=kvm an
 
 
 [bastion]
-ocpz-bastion ansible_host=192.168.10.3 ansible_user=admin ansible_become_password=linux390
+ocpz-bastion ansible_host=10.1.9.170 ansible_user=admin ansible_become_password=linux390
 
-[jumphost]
-kvm-host-01 ansible_host=192.168.10.1 ansible_user=admin ansible_become_password=linux390

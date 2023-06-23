@@ -1,0 +1,191 @@
+# Copy this file to 'all.yaml' in the same folder and add your required values there !
+#
+# For a comprehensive description of each variable, please see documentation here:
+# https://ibm.github.io/Ansible-OpenShift-Provisioning/set-variables-group-vars/
+
+# Section 1 - Ansible Controller
+env:
+  controller:
+    sudo_pass: tpass
+
+# Section 2 - LPAR(s)
+  z:
+    high_availability: False
+    ip_forward: 1
+    lpar1:
+      create: False
+      hostname: idaaocp1.zpirate.pok.stglabs.ibm.com
+      ip: 10.1.8.152
+      user: kvm
+      pass: kvmpass2
+    lpar2:
+      create: False
+#      hostname:
+#      ip:
+#      user:
+#      pass:
+    lpar3:
+      create: False
+#      hostname:
+#      ip:
+#      user:
+#      pass:
+
+# Section 3 - File Server
+  file_server:
+    ip: 10.1.9.166
+    user: ftpuser
+    pass: ftppassword
+    protocol: http
+    iso_mount_dir: rhel
+    cfgs_dir: ocp-config
+
+# Section 4 - Red Hat
+  redhat:
+    username: TBERG@de.ibm.com
+    password: 
+    # Make sure to enclose pull_secret in 'single quotes'
+    pull_secret:
+
+# Section 5 - Bastion
+  bastion:
+    create: True
+    vm_name: bastionvm
+    resources:
+      disk_size: 30
+      ram: 5000
+      swap: 4096
+      vcpu: 4
+    networking:
+      ip:          10.1.9.170
+      hostname:    ocpz-bastion
+      base_domain: idaaperf.test
+      subnetmask:  255.255.252.0
+      gateway:     10.1.10.1
+      nameserver1: 10.1.9.170
+      # nameserver2: 
+      forwarder:   10.1.9.101
+      interface:   enc800.300@enc800
+    access:
+      user: admin
+      pass: linux390
+      root_pass: linux390
+    options:
+      dns: True
+      loadbalancer:
+        on_bastion: True
+#        public_ip:
+#        private_ip:
+
+# Section 6 - Cluster Networking
+  cluster:
+    networking:
+      metadata_name: idaaocpz
+      base_domain:   idaaperf.test
+      subnetmask:    255.255.252.0
+      gateway:       10.1.10.1
+      nameserver1:   10.1.9.170
+      forwarder:     10.1.9.101
+
+# Section 7 - Bootstrap Node
+    nodes:
+      bootstrap:
+        disk_size: 120
+        ram: 16384
+        vcpu: 4
+        vm_name:  bootstrap
+        ip:       10.1.9.173
+        hostname: bootstrap-ocpz
+
+# Section 8 - Control Nodes
+      control:
+        disk_size: 120
+        ram: 16384
+        vcpu: 4
+        vm_name:
+          - control-1
+          - control-2
+          - control-3
+        ip:
+          - 10.1.9.116
+          - 10.1.9.36
+          - 10.1.9.51
+        hostname:
+          - control-01
+          - control-02
+          - control-03
+
+# Section 9 - Compute Nodes
+      compute:
+        disk_size: 250
+        ram: 33000
+        vcpu: 8
+        vm_name:
+          - compute-1
+          - compute-2
+          - compute-3
+        ip:
+          - 10.1.9.117
+          - 10.1.9.118
+          - 10.1.9.171
+        hostname:
+          - compute-01
+          - compute-02
+          - compute-03
+
+#######################################################################################
+# All variables below this point do not need to be changed for a default installation #
+#######################################################################################
+
+# Section 11 - (Optional) Packages
+  pkgs:
+    galaxy: [ ibm.ibm_zhmc, community.general, community.crypto, ansible.posix, community.libvirt ]
+    controller: [ openssh, expect, sshuttle ]
+    kvm: [ libguestfs, libvirt-client, libvirt-daemon-config-network, libvirt-daemon-kvm, cockpit-machines, libvirt-devel, virt-top, qemu-kvm, python3-lxml, cockpit, lvm2 ]
+    bastion: [ haproxy, httpd, bind, bind-utils, expect, firewalld, mod_ssl, python3-policycoreutils, rsync ]
+
+# Section 12 - OpenShift Settings
+  openshift:
+    version: 4.12.0
+  install_config:
+    api_version: v1
+    compute:
+      architecture: s390x
+      hyperthreading: Enabled
+    control:
+      architecture: s390x
+      hyperthreading: Enabled
+    cluster_network:
+      cidr: 10.128.0.0/14
+      host_prefix: 23
+      type: OVNKubernetes
+    service_network: 172.30.0.0/16
+    fips: 'false'
+
+# Section 13 - (Optional) Proxy
+#  proxy:
+#    http:
+#    https:
+#    no:
+
+# Section 14 - (Optional) Misc
+  language: en_US.UTF-8
+  timezone: America/New_York
+  root_access: false
+  ansible_key_name: ansible-ocpz
+  ocp_ssh_key_comment: OpenShift key
+  bridge_name:  macvtap
+  network_mode: 
+
+#jumphost if network mode is NAT
+  jumphost:
+    name: 
+    ip:   
+    user: 
+    pass: 
+    path_to_keypair: 
+
+path_to_key_pair: /home/tberg/.ssh/ansible-ocpz.pub
+storage:
+  pool_path: /kvm/images
+

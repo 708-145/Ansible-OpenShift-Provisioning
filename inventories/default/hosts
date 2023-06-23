@@ -5,7 +5,7 @@
 10.1.9.166 ansible_user=ftpuser ansible_become_password=ftppassword
 
 [kvm_host]
-idaaocp1.zpirate.pok.stglabs.ibm.com ansible_host=10.1.8.143 ansible_user=kvm ansible_become_password=kvmpass2
+idaaocp1.zpirate.pok.stglabs.ibm.com ansible_host=10.1.8.152 ansible_user=kvm ansible_become_password=kvmpass2
 
 
 
